@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Dice Roller</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+    label {
+      display: block;
+      margin: 10px 0;
+    }
+    button {
+      margin-top: 10px;
+    }
+    #results {
+      margin-top: 15px;
+      font-weight: bold;
+    }
+    .dice-row {
+      display: flex;
+      justify-content: space-between;
+      max-width: 400px;
+      margin-bottom: 5px;
+    }
+    .rolls {
+      flex-grow: 1;
+      margin-left: 10px;
+    }
+    .subtotal {
+      min-width: 80px;
+      text-align: right;
+    }
+  </style>
+</head>
+<body>
+
+  <h2>Dice Roller</h2>
+
+  <p>Choose how many of each dice to roll (0–5):</p>
+
+  <label>
+    d4:
+    <input type="number" id="d4Count" min="0" max="5" value="0">
+  </label>
+  <label>
+    d6:
+    <input type="number" id="d6Count" min="0" max="5" value="0">
+  </label>
+  <label>
+    d8:
+    <input type="number" id="d8Count" min="0" max="5" value="0">
+  </label>
+  <label>
+    d20:
+    <input type="number" id="d20Count" min="0" max="5" value="0">
+  </label>
+
+  <button onclick="rollDice()">Roll Dice</button>
+
+  <div id="results"></div>
+
+  <script>
+    const diceSides = { d4: 4, d6: 6, d8: 8, d20: 20 };
+
+    function rollDice() {
+      const diceCounts = {
+        d4: Number(document.getElementById("d4Count").value),
+        d6: Number(document.getElementById("d6Count").value),
+        d8: Number(document.getElementById("d8Count").value),
+        d20: Number(document.getElementById("d20Count").value)
+      };
+
+      let resultsHTML = "";
+      let grandTotal = 0;
+
+      for (const [dice, count] of Object.entries(diceCounts)) {
+        if (count < 0 || count > 5) {
+          alert(`Please choose between 0 and 5 for ${dice}.`);
+          return;
+        }
+
+        if (count > 0) {
+          const rolls = [];
+          let subtotal = 0;
+
+          for (let i = 0; i < count; i++) {
+            const roll = Math.floor(Math.random() * diceSides[dice]) + 1;
+            rolls.push(roll);
+            subtotal += roll;
+          }
+
+          grandTotal += subtotal;
+
+          resultsHTML += `
+            <div class="dice-row">
+              <strong>${dice}:</strong>
+              <span class="rolls">${rolls.join(", ")}</span>
+              <span class="subtotal">Subtotal: ${subtotal}</span>
+            </div>
+          `;
+        }
+      }
+
+      if (resultsHTML === "") {
+        resultsHTML = "No dice selected!";
+      } else {
+        resultsHTML += `<div style="margin-top:10px;"><strong>Grand Total: ${grandTotal}</strong></div>`;
+      }
+
+      document.getElementById("results").innerHTML = resultsHTML;
+    }
+  </script>
+
+</body>
+</html>
