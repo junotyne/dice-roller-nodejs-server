@@ -137,6 +137,14 @@ app.get('/api/favorite-places', (req, res) => {
   res.json(favoritePlaces);
 });
 
+// Load your JSON data
+const diceRoller = require('./DiceRoller.json');
+
+// Create a route that serves the JSON data
+app.get('/api/dice-roller', (req, res) => {
+  res.json(diceRoller);
+});
+
 
 
 // Custom 404 page.
