@@ -59,8 +59,6 @@ app.get('/add-two-integers', (request, response) => {
 	response.send(sum.toString())
 })
 
-
-
 // Template for calculating BMI using height in feet/inches and weight in pounds.
 app.get('/calculate-bmi', (request, response) => {
 	console.log('Calling "/calculate-bmi" on the Node.js server.')
